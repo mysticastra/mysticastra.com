@@ -9,7 +9,6 @@ on:
       - main
 
 jobs:
-  # Testing Job
   test:
     name: Test Laravel App
     runs-on: ubuntu-latest
@@ -88,28 +87,30 @@ jobs:
 
       - name: Setup SSH Key
         run: |
-          # Create SSH directory and set permissions
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
 
-          # Add the private SSH key
+          eval "$(ssh-agent -s)"
+          ssh-add -D
+          
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
 
-          # Start the SSH agent and add the key
-          eval "$(ssh-agent -s)"
           ssh-add ~/.ssh/deploy_key
 
-          # Add the server to known_hosts
           ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Install sshpass
+        run: sudo apt-get update && sudo apt-get install -y sshpass
 
       - name: Deploy Application
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
           SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
           SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
         run: |
-          ssh -i ~/.ssh/deploy_key -p $SSH_PORT $SSH_USERNAME@$SSH_HOST << 'EOF'
+          sshpass -p $SSH_PASSWORD ssh -o IdentitiesOnly=yes -i ~/.ssh/deploy_key -p $SSH_PORT $SSH_USERNAME@$SSH_HOST << 'EOF'
           cd /home/dazelfco/sites/mysticastra.com
           git pull origin main
           composer install --no-dev --optimize-autoloader
@@ -120,3 +121,4 @@ jobs:
           php artisan storage:link
           php artisan queue:restart
           EOF
+
