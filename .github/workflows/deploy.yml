@@ -111,6 +111,7 @@ jobs:
             SSH_PORT: ${{ secrets.SSH_PORT }}
             SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
           run: |
+            sshpass -p $SSH_PASSWORD ssh -o IdentitiesOnly=yes -i ~/.ssh/deploy_key -p $SSH_PORT $SSH_USERNAME@$SSH_HOST << 'EOF'
             ssh -p $SSH_PORT $SSH_USERNAME@$SSH_HOST << 'EOF'
             if [ "${{ github.ref_name }}" == "main" ]; then
                 DEPLOY_PATH="/home/dazelfco/sites/mysticastra.com"
