@@ -43,7 +43,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.4'
+          php-version: "8.4"
           tools: composer:v2, phpstan
 
       - name: Install Composer Dependencies
@@ -52,7 +52,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: "22"
 
       - name: Install Node Dependencies and Build
         run: |
@@ -73,8 +73,8 @@ jobs:
       - name: Run Tests
         run: php artisan test
 
-    #   - name: Analyze Code (PHPStan)
-    #     run: ./vendor/bin/phpstan analyse --memory-limit=1G
+      - name: Analyze Code (PHPStan)
+        run: ./vendor/bin/phpstan analyse --memory-limit=2G
 
   deploy:
     name: Deploy to Server
@@ -83,47 +83,47 @@ jobs:
     if: github.event_name == 'push'
 
     steps:
-        - name: Checkout Code
-          uses: actions/checkout@v4
-  
-        - name: Setup SSH Key
-          run: |
-            mkdir -p ~/.ssh
-            chmod 700 ~/.ssh
-  
-            eval "$(ssh-agent -s)"
-            ssh-add -D
-            
-            echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
-            chmod 600 ~/.ssh/deploy_key
-  
-            ssh-add ~/.ssh/deploy_key
-  
-            ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-  
-        - name: Install sshpass
-          run: sudo apt-get update && sudo apt-get install -y sshpass
-  
-        - name: Deploy Application
-          env:
-            SSH_HOST: ${{ secrets.SSH_HOST }}
-            SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
-            SSH_PORT: ${{ secrets.SSH_PORT }}
-            SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
-          run: |
-            sshpass -p $SSH_PASSWORD ssh -o IdentitiesOnly=yes -i ~/.ssh/deploy_key -p $SSH_PORT $SSH_USERNAME@$SSH_HOST << 'EOF'
-            if [ "${{ github.ref_name }}" == "main" ]; then
-                DEPLOY_PATH="/home/dazelfco/sites/mysticastra.com"
-            else
-                DEPLOY_PATH="/home/dazelfco/sites/dev.mysticastra.com"
-            fi
-            cd $DEPLOY_PATH
-            git pull origin ${{ github.ref_name }}
-            composer install --no-dev --optimize-autoloader
-            npm install
-            npm run build
-            php artisan migrate --force
-            php artisan optimize
-            php artisan storage:link
-            php artisan queue:restart
-            EOF
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+
+          eval "$(ssh-agent -s)"
+          ssh-add -D
+
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+
+          ssh-add ~/.ssh/deploy_key
+
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Install sshpass
+        run: sudo apt-get update && sudo apt-get install -y sshpass
+
+      - name: Deploy Application
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+        run: |
+          sshpass -p $SSH_PASSWORD ssh -o IdentitiesOnly=yes -i ~/.ssh/deploy_key -p $SSH_PORT $SSH_USERNAME@$SSH_HOST << 'EOF'
+          if [ "${{ github.ref_name }}" == "main" ]; then
+              DEPLOY_PATH="/home/dazelfco/sites/mysticastra.com"
+          else
+              DEPLOY_PATH="/home/dazelfco/sites/dev.mysticastra.com"
+          fi
+          cd $DEPLOY_PATH
+          git pull origin ${{ github.ref_name }}
+          composer install --no-dev --optimize-autoloader
+          npm install
+          npm run build
+          php artisan migrate --force
+          php artisan optimize
+          php artisan storage:link
+          php artisan queue:restart
+          EOF
