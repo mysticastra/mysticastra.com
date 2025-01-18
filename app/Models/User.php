@@ -66,4 +66,34 @@ class User extends Authenticatable
     {
         return $this->hasMany(Post::class);
     }
+
+    /**
+     * Get the post comments for the User
+     *
+     * @return HasMany<PostComment, $this>
+     */
+    public function postComments(): HasMany
+    {
+        return $this->hasMany(PostComment::class, 'user_id');
+    }
+
+    /**
+     * Get the post comment activities for the User
+     *
+     * @return HasMany<PostCommentActivity, $this>
+     */
+    public function postCommentActivities(): HasMany
+    {
+        return $this->hasMany(PostCommentActivity::class, 'user_id');
+    }
+
+    /**
+     * Get the approved posts for the User
+     *
+     * @return HasMany<PostComment, $this>
+     */
+    public function userApprovedPostComments(): HasMany
+    {
+        return $this->hasMany(PostComment::class, 'approved_by');
+    }
 }
