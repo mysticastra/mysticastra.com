@@ -6,7 +6,21 @@ use App\Enums\PostStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * @property int $id
+ * @property string $title
+ * @property string $slug
+ * @property string $excerpt
+ * @property string $content
+ * @property string $image
+ * @property int $user_id
+ * @property PostStatus $status
+ * @property \Carbon\Carbon $scheduled_at
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ */
 class Post extends Model
 {
     /** @use HasFactory<\Database\Factories\PostFactory> */
@@ -37,5 +51,25 @@ class Post extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the categories for the post.
+     * 
+     * @return BelongsToMany<Category, $this>
+     */
+    public function categories(): BelongsToMany
+    {
+        return $this->belongsToMany(Category::class, 'post_categories');
+    }
+
+    /**
+     * Get the tags for the post.
+     * 
+     * @return BelongsToMany<Tag, $this>
+     */
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class, 'post_tags');
     }
 }

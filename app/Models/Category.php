@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\CategoryStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @property int $id
@@ -35,4 +36,14 @@ class Category extends Model
     protected $casts = [
         "status" => CategoryStatus::class,
     ];
+
+    /**
+     * Get the posts for the category.
+     * 
+     * @return BelongsToMany<Post, $this>
+     */
+    public function posts(): BelongsToMany
+    {
+        return $this->belongsToMany(Post::class, 'post_categories');
+    }
 }
