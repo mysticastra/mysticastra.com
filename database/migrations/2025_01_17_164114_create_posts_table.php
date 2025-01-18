@@ -21,6 +21,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->enum('status', ['draft', 'published', 'scheduled'])->default('draft');
             $table->timestamp('scheduled_at')->nullable();
+            $table->string('meta_title')->nullable();
+            $table->string('meta_description')->nullable();
             $table->timestamps();
         });
     }

@@ -27,6 +27,8 @@ class PostFactory extends Factory
             'user_id' => User::factory(),
             'status' => $this->faker->randomElement(PostStatus::cases()),
             'scheduled_at' => $this->faker->dateTimeBetween('+1 day', '+1 month'),
+            'meta_title' => $this->faker->sentence,
+            'meta_description' => $this->faker->sentence,
         ];
     }
 }

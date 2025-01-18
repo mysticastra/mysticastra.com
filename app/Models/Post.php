@@ -18,6 +18,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property int $user_id
  * @property PostStatus $status
  * @property \Carbon\Carbon $scheduled_at
+ * @property string $meta_title
+ * @property string $meta_description
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  */
@@ -31,7 +33,7 @@ class Post extends Model
      *
      * @var list<string>
      */
-    protected $fillable = ['title', 'slug', 'excerpt', 'content', 'image', 'user_id', 'status', 'scheduled_at'];
+    protected $fillable = ['title', 'slug', 'excerpt', 'content', 'image', 'user_id', 'status', 'scheduled_at', 'meta_title', 'meta_description'];
 
     /**
      * Get the attributes that should be cast.
