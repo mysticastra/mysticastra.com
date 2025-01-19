@@ -26,6 +26,18 @@ class ShieldSeeder extends Seeder
                     "update_role",
                     "delete_role",
                     "delete_any_role",
+                    "view_category",
+                    "view_any_category",
+                    "create_category",
+                    "update_category",
+                    "restore_category",
+                    "restore_any_category",
+                    "replicate_category",
+                    "reorder_category",
+                    "delete_category",
+                    "delete_any_category",
+                    "force_delete_category",
+                    "force_delete_any_category"
                 ]
             ],
             [
