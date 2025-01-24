@@ -7,6 +7,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int $id
+ * @property int $post_comment_id
+ * @property int $user_id
+ * @property PostCommentType $type
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ */
 class PostCommentActivity extends Model
 {
     /** @use HasFactory<\Database\Factories\PostCommentActivityFactory> */
@@ -29,7 +37,7 @@ class PostCommentActivity extends Model
     ];
 
     /**
-     * Get the user that owns the post.
+     * Get the post comment.
      * 
      * @return BelongsTo<PostComment, $this>
      */
@@ -39,7 +47,7 @@ class PostCommentActivity extends Model
     }
 
     /**
-     * Get the user that owns the post.
+     * Get the user that owns the post comment activity.
      * 
      * @return BelongsTo<User, $this>
      */
