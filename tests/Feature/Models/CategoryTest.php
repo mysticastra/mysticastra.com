@@ -24,6 +24,6 @@ test('casts', function () {
     expect($this->category->status)->toBeInstanceOf(CategoryStatus::class);
 });
 
-test('relations', function () {
+it('check relations', function () {
     expect($this->category->posts)->toHaveCount(2)->each->toBeInstanceOf(Post::class);
 });

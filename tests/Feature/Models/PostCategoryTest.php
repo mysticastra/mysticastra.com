@@ -18,7 +18,7 @@ test('to array', function () {
     ]);
 });
 
-it('checks relations', function () {
+it('check relations', function () {
     expect($this->post_category->post)->toBeInstanceOf(Post::class)
         ->and($this->post_category->category)->toBeInstanceOf(Category::class);
 });

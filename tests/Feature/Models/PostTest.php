@@ -33,7 +33,7 @@ test('casts', function () {
         ->and($this->post->scheduled_at)->toBeInstanceOf(Carbon::class);
 });
 
-test('relations', function () {
+it('check relations', function () {
     expect($this->post->categories)->toHaveCount(2)->each->toBeInstanceOf(Category::class)
         ->and($this->post->tags)->toHaveCount(3)->each->toBeInstanceOf(Tag::class);
 });

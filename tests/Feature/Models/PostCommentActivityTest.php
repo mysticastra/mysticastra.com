@@ -24,7 +24,7 @@ test('casts', function () {
     expect($this->post_comment_activity->type)->toBeInstanceOf(PostCommentType::class);
 });
 
-it('checks relations', function () {
+it('check relations', function () {
     expect($this->post_comment_activity->postComment)->toBeInstanceOf(PostComment::class)
         ->and($this->post_comment_activity->user)->toBeInstanceOf(User::class);
 });

@@ -29,7 +29,7 @@ test('casts', function () {
         ->and($this->post_comment->is_approved)->toBeBool();
 });
 
-it('checks relations', function () {
+it('check relations', function () {
     expect($this->post_comment->post)->toBeInstanceOf(Post::class)
         ->and($this->post_comment->user)->toBeInstanceOf(User::class)
         ->and($this->post_comment->parent)->toBeNull()
