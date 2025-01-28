@@ -6,6 +6,11 @@ use Filament\Tables;
 
 final class TagResourceTable implements ResourceFieldContract
 {
+    /**
+     * Get table columns
+     *
+     * @return array<Tables\Columns\Column>
+     */
     public static function getFields(): array
     {
         return [
