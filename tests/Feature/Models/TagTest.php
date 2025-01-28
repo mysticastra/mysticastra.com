@@ -4,9 +4,7 @@ use App\Models\Post;
 use App\Models\Tag;
 
 beforeEach(function () {
-    $this->tag = Tag::factory()->create();
-    $post = Post::factory()->create();
-    $this->tag->posts()->attach($post);
+    $this->tag = Tag::factory()->hasPosts(2)->create();
 });
 
 test('to array', function () {
@@ -22,7 +20,7 @@ test('to array', function () {
 });
 
 it('check relations', function () {
-    expect($this->tag->posts)->each->toBeInstanceOf(Post::class);
+    expect($this->tag->posts)->toHaveCount(2)->each->toBeInstanceOf(Post::class);
 });
 
 it('checks attribute types and formats', function () {
