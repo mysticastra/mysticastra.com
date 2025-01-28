@@ -7,6 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property int $id
+ * @property int $post_id
+ * @property int $category_id
+ * @property string $content
+ * @property bool $is_approved
+ * @property User $approved_by
+ * @property \Carbon\Carbon $approved_at
+ * @property int|null $parent_id
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ */
 class PostComment extends Model
 {
     /** @use HasFactory<\Database\Factories\PostCommentFactory> */
@@ -57,7 +69,7 @@ class PostComment extends Model
     }
 
     /**
-     * Get the parent comment of the comment.
+     * Get the replies on the post comment.
      * @return HasMany<PostComment, $this>
      */
     public function replies(): HasMany
