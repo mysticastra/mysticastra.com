@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\CategoryStatus;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -36,6 +37,28 @@ class Category extends Model
     protected $casts = [
         "status" => CategoryStatus::class,
     ];
+
+    /**
+     * Scope a query to only include active categories.
+     *
+     * @param Builder<Category> $query
+     * @return Builder<Category>
+     */
+    public function scopeActive(Builder $query): Builder
+    {
+        return $query->where('status', CategoryStatus::ACTIVE);
+    }
+
+    /**
+     * Scope a query to only include active categories.
+     *
+     * @param Builder<Category> $query
+     * @return Builder<Category>
+     */
+    public function scopeInactive(Builder $query): Builder
+    {
+        return $query->where('status', CategoryStatus::INACTIVE);
+    }
 
     /**
      * Get the posts for the category.
