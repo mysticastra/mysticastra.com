@@ -37,7 +37,19 @@ class ShieldSeeder extends Seeder
                     "delete_category",
                     "delete_any_category",
                     "force_delete_category",
-                    "force_delete_any_category"
+                    "force_delete_any_category",
+                    "view_tag",
+                    "view_any_tag",
+                    "create_tag",
+                    "update_tag",
+                    "restore_tag",
+                    "restore_any_tag",
+                    "replicate_tag",
+                    "reorder_tag",
+                    "delete_tag",
+                    "delete_any_tag",
+                    "force_delete_tag",
+                    "force_delete_any_tag"
                 ]
             ],
             [
